@@ -47,3 +47,14 @@ npm run typecheck
 
 > หมายเหตุ: โจทย์ `011` และ `012` อ้างอิง `pinia` ซึ่งยังไม่ได้ติดตั้งในโฟลเดอร์นี้ ใช้ฝึกอ่าน
 > error แบบ conceptual ได้โดยไม่ต้องรันจริง ถ้าต้องการรันตรวจจริงให้ `npm install pinia` เพิ่ม
+
+### ข้อมูลจากภายนอก (route / localStorage / production patterns)
+
+> โจทย์กลุ่มนี้ปรับจาก pattern จริงที่เจอในโปรเจกต์ production (Vue 3 + JS ที่ยังไม่ได้ขึ้น TypeScript)
+> โดยจำลองเป็นตัวอย่างสั้น ๆ แบบ TypeScript ให้ฝึกอ่าน error ประเภทที่มักเกิดตอนเอาโค้ด JS เดิมมาขึ้น type
+
+- `013` ฟังก์ชัน format เงินประกาศรับ `string` แต่มีคนเอาผลคำนวณที่เป็น `number` ไปเรียกใช้ตรง ๆ
+- `014` `route.query.code` จาก vue-router มี type กว้างกว่าที่คิด (`string | null | array`) ถูกส่งเข้าฟังก์ชันที่ต้องการ `string` เพียว ๆ โดยไม่เช็คก่อน
+- `015` `localStorage.getItem()` คืนค่าเป็น `string | null` เสมอ แต่เอาไปใส่ `JSON.parse()` ตรง ๆ โดยไม่กันเคส `null`
+- `016` field ที่ประกาศเป็น `boolean` ถูกเขียนทับด้วยค่า `string` `"true"/"false"` เพราะในโค้ดเดิมใช้ทั้งสองแบบสลับกัน
+- `017` composable ต้องการ parameter เป็น `Ref<boolean>` แต่ผู้เรียกส่ง `boolean` ธรรมดาเข้าไปโดยไม่ได้ครอบด้วย `ref()`
